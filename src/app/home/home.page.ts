@@ -1,33 +1,29 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent } from '@ionic/angular/standalone';
 import { Platform } from '@ionic/angular';
-import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
+import { GeoLocationService } from '../services/geoLocation.service';
+import { Geoposition } from '@awesome-cordova-plugins/geolocation/ngx';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent],
-  
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent],  
 })
 export class HomePage {
-  constructor(private geolocation: Geolocation, private platform: Platform) {
 
+  private geoLocationPosition? : Geoposition = undefined
+  public cityName? : string = "Lisbon"
+
+  constructor(private platform: Platform, private geoLocationService: GeoLocationService) {
     this.platform.ready().then(() => {
-
-      console.log("preparado")
-
-      
-
-      geolocation.getCurrentPosition().then(valor => {
-
-        console.log(valor)
-      })
-     
-    });
-
-
-
+      console.log("device ready!")
+    })
   }
+
+  async ionViewWillEnter(){
+    this.geoLocationPosition = await this.geoLocationService.GetPosition()
+  }
+
 }
