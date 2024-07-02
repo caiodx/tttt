@@ -9,14 +9,15 @@ export class WeatherService {
 
     private readonly API_KEY: string = ''
     private readonly WEATHER_ENDPOINT: string = 'https://api.openweathermap.org/data/2.5/weather'
+    private readonly UNITS : string = "metric"
 
     constructor() {
       this.API_KEY = environment.openweather.apikey
       this.WEATHER_ENDPOINT = environment.openweather.endpoint
     }
 
-    async GetWeatherByCoord(lat: string, lon: string) : Promise<WeatherRoot>{
-        const url = `${this.WEATHER_ENDPOINT}?lat=${lat}&lon=${lon}&appid=${this.API_KEY}`
+    async GetWeatherByCoord(lat: number, lon: number) : Promise<WeatherRoot>{
+        const url = `${this.WEATHER_ENDPOINT}?lat=${lat}&lon=${lon}&appid=${this.API_KEY}&units=${this.UNITS}`
         const response = await fetch(url)
         if (response.ok) {
           const data = await response.json()
@@ -26,8 +27,8 @@ export class WeatherService {
         }
     }
 
-    async GetWeatherByCity(cityName: number) : Promise<WeatherRoot>{
-        const url = `${this.WEATHER_ENDPOINT}?q=${cityName}&appid=${this.API_KEY}`
+    async GetWeatherByCity(cityName: string) : Promise<WeatherRoot>{
+        const url = `${this.WEATHER_ENDPOINT}?q=${cityName}&appid=${this.API_KEY}&units=${this.UNITS}`
         const response = await fetch(url)
         if (response.ok) {
           const data = await response.json()
