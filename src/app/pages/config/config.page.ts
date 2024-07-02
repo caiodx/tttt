@@ -10,14 +10,14 @@ import { NavController } from '@ionic/angular';
   templateUrl: './config.page.html',
   styleUrls: ['./config.page.scss'],
   standalone: true,
-  imports: [IonInput, IonRadioGroup, IonCheckbox, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton,  IonList, IonListHeader, IonItem, IonLabel, IonRadio ]
+  imports: [IonInput, IonRadioGroup, IonCheckbox, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonList, IonListHeader, IonItem, IonLabel, IonRadio]
 })
 export class ConfigPage implements OnInit {
 
   localizacaoSelecionada: string = 'pegarLocalizacaoAtual'; // Opção inicial
-  public nomeCidade: string = '';
+  public nomeCidade: string = 'teste';
 
-  constructor(private globalConfigService: GlobalConfigService, public navCtrl: NavController) {}
+  constructor(private globalConfigService: GlobalConfigService, public navCtrl: NavController) { }
 
   ngOnInit() {
   }
@@ -26,13 +26,36 @@ export class ConfigPage implements OnInit {
     this.navCtrl.pop()
   }
 
-  ChangeLocationType(event: CustomEvent){    
+  ChangeLocationType(event: CustomEvent) {
     this.localizacaoSelecionada = event.detail.value
-    console.log(this.localizacaoSelecionada)
   }
 
-  Teste(event: CustomEvent){
-    console.log(event)
+  ChangeCity(event: CustomEvent) {
+    
+    this.nomeCidade = event.detail.value
+  }
+
+  ionViewWillEnter() {
+    this.LoadSettings()
+  }
+
+  ionViewWillLeave(){
+    this.saveSettings()
+  }
+
+  saveSettings(){
+    this.globalConfigService.saveGlobalSetting("localizacaoSelecionada", this.localizacaoSelecionada)
+    this.globalConfigService.saveGlobalSetting("nomeCidade", this.nomeCidade)
+    console.log(this.nomeCidade)
+  }
+
+  LoadSettings(){
+    let localizacaoSelecionada = this.globalConfigService.getGlobalSetting("localizacaoSelecionada")
+    let nomeCidade = this.globalConfigService.getGlobalSetting("nomeCidade")
+    if (localizacaoSelecionada !== null && localizacaoSelecionada !== undefined && localizacaoSelecionada !== "")
+      this.localizacaoSelecionada = localizacaoSelecionada
+    if (nomeCidade !== null && nomeCidade !== undefined && nomeCidade !== "")
+      this.nomeCidade = nomeCidade
   }
 
 }

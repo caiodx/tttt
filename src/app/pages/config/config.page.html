@@ -21,7 +21,7 @@
         </ion-radio-group>
 
         <ion-item *ngIf="localizacaoSelecionada === 'definirCidade'">
-          <ion-input type="text" [value]="nomeCidade"></ion-input>
+          <ion-input type="text" [value]="nomeCidade" (ionChange)="ChangeCity($event)"></ion-input>
         </ion-item>
       </form>
     </ion-list>
