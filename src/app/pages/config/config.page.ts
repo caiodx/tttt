@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { GlobalConfigService } from 'src/app/services/global-config.service';
+
 
 @Component({
   selector: 'app-config',
@@ -12,7 +14,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/stan
 })
 export class ConfigPage implements OnInit {
 
-  constructor() { }
+  constructor(private globalConfigService: GlobalConfigService) {}
 
   ngOnInit() {
   }
