@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonImg, IonThumbnail, IonLabel, IonItem } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonImg, IonThumbnail, IonLabel, IonItem, IonButtons, IonMenuButton, IonMenu, IonButton } from '@ionic/angular/standalone';
 import { Platform } from '@ionic/angular';
 import { GeoLocationService } from '../services/geoLocation.service';
 import { Geoposition } from '@awesome-cordova-plugins/geolocation/ngx';
 import { WeatherService } from '../services/weather.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonImg, IonThumbnail, IonLabel, IonItem],
+  imports: [IonButton, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonImg, IonThumbnail, IonLabel, IonItem, IonButtons, IonMenuButton, IonMenu],
 })
 export class HomePage {
 
@@ -22,7 +23,7 @@ export class HomePage {
   public weatherDegrees? : number 
 
 
-  constructor(private platform: Platform, private geoLocationService: GeoLocationService, private weatherService : WeatherService) {
+  constructor(private platform: Platform, private geoLocationService: GeoLocationService, private weatherService : WeatherService, private router: Router) {
     this.platform.ready().then(() => {
       console.log("device ready!")
     })
@@ -37,6 +38,10 @@ export class HomePage {
     this.weatherConditionCode = weather.weather[0]?.icon
     this.countryCode = weather.sys.country
     this.weatherDegrees = Math.floor(weather.main.temp) 
+  }
+
+  GotoPage(route: string){
+    this.router.navigateByUrl(`/${route}`)
   }
 
 }
